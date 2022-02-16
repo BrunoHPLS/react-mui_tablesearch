@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import styled from 'styled-components';
 import Select from '@mui/material/Select';
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
     const TableContainer = styled.div`
         width: 600px;
@@ -10,7 +14,9 @@ import Select from '@mui/material/Select';
 
     `
     const Form = styled.form`
-
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     `
 
 function Table() {
@@ -34,13 +40,46 @@ function Table() {
         { id: 10, nome: 'Morango', categoria: 'Milk Shake'},
       ];
 
+      let categoriasRepetidas = [];
+      realRows.forEach(row => {
+        categoriasRepetidas.push(row.categoria);
+      });
+      const categorias = [...new Set(categoriasRepetidas)];
+
+    const [category,setCategory] = useState("Geral");
     const [rows,setRows] = useState(realRows);
 
   return (
   <TableContainer>
-      <form>
-
-      </form>
+        <Form onSubmit={(event) =>{event.preventDefault();
+          const categoriaAtual = (event.target.categoria.value==="Geral")? "":event.target.categoria.value;
+          const nomeAtual = event.target.nome.value;
+          const newRows = realRows.filter(row => row.nome.indexOf(nomeAtual) >= 0 && row.categoria.indexOf(categoriaAtual) >= 0);
+          setRows(newRows);
+        }}>
+          <TextField name="nome" id="filled-basic" label="Filled" variant="filled" />
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-standard-label">Categoria</InputLabel>
+            <Select
+              name="categoria"
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              onChange={(event)=>{setCategory(event.target.value);}}
+              value={category}
+              label="Categoria"
+            >
+              <MenuItem value="Geral">
+                <em>Geral</em>
+              </MenuItem>
+              {
+                categorias.map((categoria,index)=>{
+                  return (<MenuItem key={index} value={categoria}>{categoria}</MenuItem>);
+                })
+              }
+            </Select>
+          </FormControl>
+          <Button type="submit" variant="contained">Buscar</Button>
+        </Form>
       <DataGrid
         rows={rows}
         columns={columns}
