@@ -56,7 +56,7 @@ function Table() {
 
   return (
   <TableContainer>
-      <Title>Formulário Buscável</Title>
+      <Title>Tabela Buscável</Title>
       <Form onSubmit={(event) =>{event.preventDefault();
           const categoriaAtual = (event.target.categoria.value==="Geral")? "":event.target.categoria.value;
           const nomeAtual = event.target.nome.value;
