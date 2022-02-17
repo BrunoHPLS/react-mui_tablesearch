@@ -9,9 +9,13 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
     const TableContainer = styled.div`
-        width: 600px;
+        width: 500px;
         height: 400px;
-
+    `
+    const Title = styled.h1`
+      font-size: 2rem;
+      text-align: center;
+      font-family: 'Roboto';
     `
     const Form = styled.form`
       display: flex;
@@ -21,6 +25,7 @@ import Button from '@mui/material/Button';
 
 function Table() {
 
+  /** columns e realrows são da table do MUI*/
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'nome', headerName: 'Nome', width: 130 },
@@ -51,7 +56,8 @@ function Table() {
 
   return (
   <TableContainer>
-        <Form onSubmit={(event) =>{event.preventDefault();
+      <Title>Formulário Buscável</Title>
+      <Form onSubmit={(event) =>{event.preventDefault();
           const categoriaAtual = (event.target.categoria.value==="Geral")? "":event.target.categoria.value;
           const nomeAtual = event.target.nome.value;
           const newRows = realRows.filter(row => row.nome.indexOf(nomeAtual) >= 0 && row.categoria.indexOf(categoriaAtual) >= 0);
@@ -79,7 +85,7 @@ function Table() {
             </Select>
           </FormControl>
           <Button type="submit" variant="contained">Buscar</Button>
-        </Form>
+      </Form>
       <DataGrid
         rows={rows}
         columns={columns}
